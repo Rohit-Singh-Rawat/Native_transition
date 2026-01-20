@@ -1,9 +1,61 @@
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getProductBySlug, getSimilarProducts, getPreviousProduct, getNextProduct } from "@/lib/shop/utils"
 import { ProductBreadcrumb } from "@/components/shop/product-breadcrumb"
 import { ProductImage, ProductHeader, ProductInfo, ProductActions } from "@/components/shop/product-details"
 import { ProductNavigation } from "@/components/shop/product-navigation"
 import { ViewTransition } from "react"
+
+type ProductPageProps = {
+  params: Promise<{ slug: string }>
+}
+
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+  const { slug } = await params
+
+  if (!slug) {
+    return {
+      title: "Product Not Found",
+    }
+  }
+
+  const product = getProductBySlug(slug)
+  if (!product) {
+    return {
+      title: "Product Not Found",
+    }
+  }
+
+  return {
+    title: `${product.name} - ${product.company}`,
+    description: product.description,
+    openGraph: {
+      title: `${product.name} - ${product.company} | Shop`,
+      description: product.description,
+      url: `/shop/${slug}`,
+      images: [
+        {
+          url: product.imageSrc,
+          width: 800,
+          height: 800,
+          alt: product.imageAlt,
+        },
+        {
+          url: '/images/og/opengraph.png',
+          width: 1200,
+          height: 630,
+          alt: 'Shop',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.name} - ${product.company} | Shop`,
+      description: product.description,
+      images: [product.imageSrc, '/images/og/opengraph.png'],
+    },
+  }
+}
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>

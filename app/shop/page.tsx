@@ -1,9 +1,34 @@
+import type { Metadata } from "next"
 import { filterAndSortProducts } from "@/lib/shop/filters"
 import { products } from "@/lib/shop/products"
 import { ProductGrid } from "@/components/shop/product-grid"
 import { SearchBar, SortBy } from "@/components/shop/filters"
 import type { SortOption } from "@/lib/shop/types"
 import { ViewTransition } from "react"
+
+export const metadata: Metadata = {
+  title: "Products",
+  description: "Browse our collection of premium products. Find the perfect items for your lifestyle with our easy-to-use filters and search.",
+  openGraph: {
+    title: "Products - Shop",
+    description: "Browse our collection of premium products. Find the perfect items for your lifestyle.",
+    url: '/shop',
+    images: [
+      {
+        url: '/images/og/opengraph.png',
+        width: 1200,
+        height: 630,
+        alt: 'Shop Products',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Products - Shop",
+    description: "Browse our collection of premium products.",
+    images: ['/images/og/opengraph.png'],
+  },
+}
 
 type ShopPageProps = {
   searchParams: Promise<{ q?: string; sort?: string }>

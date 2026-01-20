@@ -19,8 +19,47 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "shop",
-  description: "Discover curated essentials - premium products handpicked for quality and style",
+  title: {
+    default: "Shop",
+    template: "%s | Shop"
+  },
+  description: "Premium products and essentials for your lifestyle. Quality items handpicked for style and functionality.",
+  keywords: ["shop", "products", "essentials", "premium", "lifestyle", "shopping"],
+  authors: [{ name: "spacing_whale" }],
+  creator: "spacing_whale",
+  publisher: "spacing_whale",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL('https://shop.rohitsinghrawat.com'),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: "Shop",
+    description: "Premium products and essentials for your lifestyle. Quality items handpicked for style and functionality.",
+    url: '/',
+    siteName: 'Shop',
+    images: [
+      {
+        url: '/images/og/opengraph.png',
+        width: 1200,
+        height: 630,
+        alt: 'Shop - Premium Products',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Shop",
+    description: "Premium products and essentials for your lifestyle.",
+    images: ['/images/og/opengraph.png'],
+    creator: '@spacing_whale',
+  },
   icons: {
     icon: [
       { url: "/icon1.png", type: "image/png" },
@@ -31,7 +70,25 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.json",
   appleWebApp: {
-    title: "shop",
+    title: "Shop",
+    statusBarStyle: "default",
+    startupImage: [
+      {
+        url: "/apple-icon.png",
+        media: "(device-width: 768px) and (device-height: 1024px)",
+      },
+    ],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 

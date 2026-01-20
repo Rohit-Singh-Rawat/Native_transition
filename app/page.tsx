@@ -1,6 +1,30 @@
-"use client"
+import type { Metadata } from "next"
 import { Link } from "@/components/ui/link"
 import { ProductMarquee } from "@/components/marquee"
+
+export const metadata: Metadata = {
+  title: "Home",
+  description: "Welcome to Shop - your destination for premium products. Discover quality items handpicked for style and functionality.",
+  openGraph: {
+    title: "Shop - Premium Products",
+    description: "Welcome to Shop - your destination for premium products. Discover quality items handpicked for style and functionality.",
+    url: '/',
+    images: [
+      {
+        url: '/images/og/opengraph.png',
+        width: 1200,
+        height: 630,
+        alt: 'Shop - Premium Products',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Shop - Premium Products",
+    description: "Welcome to Shop - your destination for premium products.",
+    images: ['/images/og/opengraph.png'],
+  },
+}
 
 export default function HomePage() {
   return (
