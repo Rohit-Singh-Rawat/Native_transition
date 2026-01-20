@@ -5,7 +5,7 @@ import { addTransitionType, startTransition } from "react"
 import { Link, linkVariants } from "./ui/link"
 import { VariantProps } from "class-variance-authority"
 
-export function TransitionLink({ children, type, href, className, variant = "default", ...props }: { children: React.ReactNode, type: string, href: string, className?: string, variant?: VariantProps<typeof linkVariants>["variant"] } & LinkProps) {
+export function TransitionLink({ children, type, href, className, variant = "default", }: { children: React.ReactNode, type: string, href: string, className?: string, variant?: VariantProps<typeof linkVariants>["variant"] } & LinkProps) {
   const router = useRouter()
   const handleNavigate = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault()

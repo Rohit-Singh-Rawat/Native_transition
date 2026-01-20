@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useEffect, useState, useCallback } from "react"
+import { createContext, useContext, useEffect, useState, useCallback, useSyncExternalStore } from "react"
 
 type CartItem = {
   productId: number
@@ -40,13 +40,13 @@ function saveCartToStorage(items: CartItem[]) {
   }
 }
 
-export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(() => loadCartFromStorage())
-  const [mounted, setMounted] = useState(false)
+const subscribe = () => () => {}
+const getSnapshot = () => true
+const getServerSnapshot = () => false
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+export function CartProvider({ children }: { children: React.ReactNode }) {
+  const mounted = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+  const [items, setItems] = useState<CartItem[]>(() => loadCartFromStorage())
 
   useEffect(() => {
     if (mounted) {

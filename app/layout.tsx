@@ -4,7 +4,6 @@ import "./globals.css";
 import { Header } from "@/components/header";
 import { ThemeProvider } from "@/components/theme-provider";
 import { CartProvider } from "@/contexts/cart-context";
-import { ViewTransition } from "react";
 
 const nunitoSans = Nunito_Sans({ variable: "--font-sans" });
 
