@@ -23,12 +23,16 @@ export function getSimilarProducts(
 
 export function getPreviousProduct(currentProductSlug: string): Product | null {
   const currentIndex = products.findIndex((p) => p.slug === currentProductSlug)
-  if (currentIndex <= 0) return null
-  return products[currentIndex - 1] ?? null
+  if (currentIndex < 0) return null
+  if (products.length === 0) return null
+  const prevIndex = (currentIndex - 1 + products.length) % products.length
+  return products[prevIndex] ?? null
 }
 
 export function getNextProduct(currentProductSlug: string): Product | null {
   const currentIndex = products.findIndex((p) => p.slug === currentProductSlug)
-  if (currentIndex < 0 || currentIndex >= products.length - 1) return null
-  return products[currentIndex + 1] ?? null
+  if (currentIndex < 0) return null
+  if (products.length === 0) return null
+  const nextIndex = (currentIndex + 1) % products.length
+  return products[nextIndex] ?? null
 }

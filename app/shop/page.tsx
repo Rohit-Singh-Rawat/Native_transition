@@ -1,37 +1,46 @@
-"use client"
-
-import { useSearchParams } from "next/navigation"
-import { useMemo } from "react"
 import { filterAndSortProducts } from "@/lib/shop/filters"
 import { products } from "@/lib/shop/products"
 import { ProductGrid } from "@/components/shop/product-grid"
-import { SearchBar } from "@/components/shop/search-bar"
-import { SortBy } from "@/components/shop/sort-by"
+import { SearchBar, SortBy } from "@/components/shop/filters"
 import type { SortOption } from "@/lib/shop/types"
+import { ViewTransition } from "react"
 
-export default function ShopPage() {
-  const searchParams = useSearchParams()
+type ShopPageProps = {
+  searchParams: Promise<{ q?: string; sort?: string }>
+}
 
-  const searchQuery = searchParams.get("q") ?? ""
-  const sortBy = (searchParams.get("sort") as SortOption) ?? "latest"
+export default async function ShopPage({ searchParams }: ShopPageProps) {
+  const params = await searchParams
+  const searchQuery = params.q ?? ""
+  const sortBy = (params.sort as SortOption) ?? "latest"
 
-  const visibleProducts = useMemo(
-    () => filterAndSortProducts(products, searchQuery, sortBy),
-    [searchQuery, sortBy]
-  )
+  const visibleProducts = filterAndSortProducts(products, searchQuery, sortBy)
 
   return (
     <main className="bg-background text-foreground">
-      <div className="mx-auto flex w-full flex-col gap-8 px-4 py-8 sm:px-6nfo md:flex-row ">
+      {/* Mobile Header */}
+      <div className="md:hidden px-4 pt-8 pb-4 sm:px-6">
+        <div className="flex items-center gap-4">
+          <div className="flex-1">
+            <SearchBar />
+          </div>
+          <div className="shrink-0">
+            <SortBy />
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto flex w-full flex-col gap-8 px-4 py-8 sm:px-6 md:flex-row">
         <aside
           aria-label="Filters"
-          className="md:w-64 md:shrink-0 md:pr-6"
+          className="hidden md:block md:w-64 md:shrink-0 md:pr-6"
         >
           <SearchBar />
           <SortBy />
         </aside>
 
-        <ProductGrid products={visibleProducts} totalCount={products.length} />
+<ViewTransition>
+        <ProductGrid products={visibleProducts} totalCount={products.length} /></ViewTransition>
       </div>
     </main>
   )

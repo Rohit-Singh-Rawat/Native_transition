@@ -127,61 +127,6 @@
   }
 }
 
-@supports (view-transition-name: none) {
-  ::view-transition-old(root) {
-    animation: 0.3s ease-in-out both fade-out-blur;
-  }
-
-  ::view-transition-new(root) {
-    animation: 0.3s ease-in-out both fade-in-blur;
-  }
-
-  ::view-transition-group(product-image) {
-    animation-duration: 0.4s;
-    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  ::view-transition-old(product-image) {
-    animation: 0.4s ease-in-out both fade-out-blur;
-  }
-
-  ::view-transition-new(product-image) {
-    animation: 0.4s ease-in-out both fade-in-blur;
-  }
-
-  @keyframes fade-out-blur {
-    from {
-      opacity: 1;
-      filter: blur(0);
-    }
-    to {
-      opacity: 0;
-      filter: blur(8px);
-    }
-  }
-
-  @keyframes fade-in-blur {
-    from {
-      opacity: 0;
-      filter: blur(8px);
-    }
-    to {
-      opacity: 1;
-      filter: blur(0);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    ::view-transition-old(root),
-    ::view-transition-new(root),
-    ::view-transition-group(product-image),
-    ::view-transition-old(product-image),
-    ::view-transition-new(product-image) {
-      animation-duration: 0.01ms;
-      filter: none;
-    }
-  }
-}
 .round {
 	@apply rounded-full;
 	@supports (corner-shape: round) {
@@ -195,4 +140,52 @@
 		corner-shape: squircle;
 		border-radius: calc(infinity * 1px);
 	}
+}
+
+@custom-variant supports-corner-shape {
+  @supports (corner-shape: initial) {
+    @slot;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+@keyframes slide {
+  from {
+    translate:var(--slide-distance);
+  }
+  to {
+ translate:0;
+  }
+
+}
+
+::view-transition-new(.enter-right) {
+  --slide-distance: 50px;
+  --animation-duration: 400ms;
+  animation: slide var(--animation-duration) ease-in-out, fade 250ms ease-in-out;
+}
+
+::view-transition-new(.enter-left) {
+  --slide-distance: -50px;
+  --animation-duration: 400ms;
+  animation: slide var(--animation-duration) ease-in-out, fade 250ms ease-in-out;
+}
+::view-transition-old(.exit-left) {
+  --slide-distance: -50px;
+  --animation-duration: 150ms;
+  animation: slide var(--animation-duration) ease-in-out reverse, fade var(--animation-duration) ease-in-out reverse;
+}
+::view-transition-new(.exit-right) {
+  --slide-distance: 50px;
+  --animation-duration: 150ms;
+  animation: slide var(--animation-duration) ease-in-out, fade var(--animation-duration) ease-in-out;
 }
